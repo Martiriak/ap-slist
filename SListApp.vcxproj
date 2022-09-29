@@ -139,7 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SList.cpp" />
     <ClCompile Include="SListApp.cpp" />
+    <ClCompile Include="SNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SList.h" />
+    <ClInclude Include="SNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
