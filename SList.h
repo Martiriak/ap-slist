@@ -14,6 +14,10 @@ public:
 
 	using value_type = T;
 	using size_type = std::size_t;
+	using reference = value_type&;
+	using const_reference = const value_type&;
+	using pointer = value_type*;
+	using const_pointer = const value_type*;
 
 
 	SList() = default;
@@ -28,6 +32,10 @@ public:
 	void push_front(const value_type& InValue);
 	void pop_front();
 	void clear();
+	void swap(SList<value_type>& OutOther);
+
+	reference front();
+	const_reference front() const;
 
 	// Debug purpouses, will be removed when iterators will be available.
 	void Print();
@@ -123,6 +131,45 @@ void SList<T>::clear()
 {
 	while (m_FirstNode != nullptr) pop_front();
 }
+
+template<typename T>
+void SList<T>::swap(SList<value_type>& OutOther)
+{
+	// TODO
+}
+
+
+template<typename T>
+SList<T>::reference SList<T>::front() { return m_FirstNode->Data; }
+
+template<typename T>
+SList<T>::const_reference SList<T>::front() const { return m_FirstNode->Data; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 template<typename T>
 void SList<T>::Print()
