@@ -4,24 +4,38 @@
 #include "SList.h"
 
 
+template<typename T>
+void PrintList(SList<T>& InList)
+{
+	int count = 0;
+	for (auto it = InList.begin(); it != InList.end(); ++it)
+	{
+		++count;
+		std::cout << *it << " ";
+	}
+
+	std::cout << "Number Of Elements: " << count << "\n";
+}
+
+
 void TestPushPopAndClear()
 {
 	SList<int> ForwardList;
 
-	ForwardList.Print();
+	PrintList(ForwardList);
 	std::cout << "Is empty? " << (ForwardList.empty() ? "Yep\n\n" : "Nope\n\n");
 
 	ForwardList.push_front(5);
 	ForwardList.push_front(6);
 	ForwardList.push_front(7);
 
-	ForwardList.Print();
+	PrintList(ForwardList);
 	std::cout << "Is empty? " << (ForwardList.empty() ? "Yep\n\n" : "Nope\n\n");
 
 	ForwardList.pop_front();
-	ForwardList.Print();
+	PrintList(ForwardList);
 	ForwardList.push_front(1);
-	ForwardList.Print();
+	PrintList(ForwardList);
 
 	std::cout << "\n";
 }
@@ -29,13 +43,13 @@ void TestPushPopAndClear()
 void TestConstructors()
 {
 	SList<int> FirstForwardList(6);
-	FirstForwardList.Print(); std::cout << "\n";
+	PrintList(FirstForwardList); std::cout << "\n";
 
 	SList<float> SecondForwardList(5, 3.f);
-	SecondForwardList.Print(); std::cout << "\n";
+	PrintList(SecondForwardList); std::cout << "\n";
 
 	SList<float> ThirdForwardList(SecondForwardList);
-	ThirdForwardList.Print(); std::cout << "\n";
+	PrintList(ThirdForwardList); std::cout << "\n";
 }
 
 

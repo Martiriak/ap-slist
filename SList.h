@@ -4,7 +4,7 @@
 
 #include <cstddef>
 #include "SNode.h"
-#include <iostream>
+#include "SIterator.h"
 
 
 template<typename T>
@@ -14,10 +14,12 @@ public:
 
 	using value_type = T;
 	using size_type = std::size_t;
-	using reference = value_type&;
-	using const_reference = const value_type&;
-	using pointer = value_type*;
-	using const_pointer = const value_type*;
+	using reference = T&;
+	using const_reference = const T&;
+	using pointer = T*;
+	using const_pointer = const T*;
+	using iterator = SIterator<value_type>;
+	using const_iterator = ConstSIterator<value_type>;
 
 
 	SList() = default;
@@ -27,20 +29,23 @@ public:
 	SList(SList<value_type>&& Other);
 	~SList();
 
+	inline auto begin() noexcept -> iterator { return iterator(m_FirstNode); }
+	inline auto cbegin() const noexcept -> const_iterator { return const_iterator(m_FirstNode); }
 
+	inline auto end() noexcept -> iterator { return iterator(); }
+	inline auto cend() const noexcept -> const_iterator { return const_iterator(); }
 
 	void push_front(const value_type& InValue);
 	void pop_front();
 	void clear();
 	void swap(SList<value_type>& OutOther);
 
-	reference front();
-	const_reference front() const;
-
-	// Debug purpouses, will be removed when iterators will be available.
-	void Print();
+	inline auto front() -> reference { return m_FirstNode->Data; }
+	inline auto front() const -> const_reference { return m_FirstNode->Data; }
 
 	inline bool empty() const { return m_FirstNode == nullptr; }
+
+
 
 private:
 
@@ -107,7 +112,6 @@ SList<T>::~SList()
 
 
 
-
 template<typename T>
 void SList<T>::push_front(const value_type& InValue)
 {
@@ -136,53 +140,4 @@ template<typename T>
 void SList<T>::swap(SList<value_type>& OutOther)
 {
 	// TODO
-}
-
-
-template<typename T>
-SList<T>::reference SList<T>::front() { return m_FirstNode->Data; }
-
-template<typename T>
-SList<T>::const_reference SList<T>::front() const { return m_FirstNode->Data; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-template<typename T>
-void SList<T>::Print()
-{
-	int Count = 0;
-	SNode<value_type>* CurrentNode = m_FirstNode;
-
-	while (CurrentNode != nullptr)
-	{
-		++Count;
-		std::cout << CurrentNode->Data << " ";
-		CurrentNode = CurrentNode->Next;
-	}
-
-	std::cout << "Numero di Elementi: " << Count << "\n";
 }

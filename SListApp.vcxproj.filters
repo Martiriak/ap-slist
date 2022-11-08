@@ -24,12 +24,18 @@
     <ClCompile Include="SNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SIterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SIterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
