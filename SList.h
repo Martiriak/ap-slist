@@ -29,19 +29,19 @@ public:
 	SList(SList<value_type>&& Other);
 	~SList();
 
-	inline auto begin() noexcept -> iterator { return iterator(m_FirstNode); }
-	inline auto cbegin() const noexcept -> const_iterator { return const_iterator(m_FirstNode); }
+	inline iterator begin() noexcept { return iterator(m_FirstNode); }
+	inline const_iterator cbegin() const noexcept { return const_iterator(m_FirstNode); }
 
-	inline auto end() noexcept -> iterator { return iterator(); }
-	inline auto cend() const noexcept -> const_iterator { return const_iterator(); }
+	inline iterator end() noexcept { return iterator(); }
+	inline const_iterator cend() const noexcept { return const_iterator(); }
 
 	void push_front(const value_type& InValue);
 	void pop_front();
 	void clear();
-	void swap(SList<value_type>& OutOther);
+	void swap(SList<value_type>& OutOther) noexcept;
 
-	inline auto front() -> reference { return m_FirstNode->Data; }
-	inline auto front() const -> const_reference { return m_FirstNode->Data; }
+	inline reference front() { return m_FirstNode->Data; }
+	inline const_reference front() const { return m_FirstNode->Data; }
 
 	inline bool empty() const { return m_FirstNode == nullptr; }
 
@@ -84,9 +84,11 @@ SList<T>::SList(const SList<value_type>& Other)
 	SNode<value_type>* That_CurrentNode = Other.m_FirstNode;
 	SNode<value_type>* This_PreviousNode = nullptr;
 
+	SNode<value_type>* NewNode = nullptr;
+
 	while (That_CurrentNode != nullptr)
 	{
-		SNode<value_type>* NewNode = new SNode<value_type>(*That_CurrentNode);
+		NewNode = new SNode<value_type>(*That_CurrentNode);
 
 		if (this->empty()) m_FirstNode = NewNode;
 		else This_PreviousNode->Next = NewNode;
@@ -137,7 +139,21 @@ void SList<T>::clear()
 }
 
 template<typename T>
-void SList<T>::swap(SList<value_type>& OutOther)
+void SList<T>::swap(SList<value_type>& OutOther) noexcept
 {
-	// TODO
+	SNode<value_type>* Tmp = OutOther.m_FirstNode;
+	OutOther.m_FirstNode = this->m_FirstNode;
+	this->m_FirstNode = Tmp;
+}
+
+
+
+
+namespace std
+{
+	template<typename T>
+	void swap(SList<T>& A, SList<T>& B) noexcept
+	{
+		A.swap(B);
+	}
 }
