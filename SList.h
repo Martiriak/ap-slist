@@ -12,26 +12,26 @@ class SList final
 {
 public:
 
-	using value_type = T;
-	using size_type = std::size_t;
-	using reference = T&;
-	using const_reference = const T&;
-	using pointer = T*;
-	using const_pointer = const T*;
-	using iterator = SIterator<value_type>;
-	using const_iterator = ConstSIterator<value_type>;
+	using value_type       = T;
+	using size_type        = std::size_t;
+	using reference        = T&;
+	using const_reference  = const T&;
+	using pointer          = T*;
+	using const_pointer    = const T*;
+	using iterator         = SIterator<value_type>;
+	using const_iterator   = ConstSIterator<value_type>;
 
 
 	SList() = default;
 	SList(size_type NumberOfElements);
-	SList(size_type NumberOfElements, const value_type& InBaseValue);
+	SList(size_type NumberOfElements, const value_type& BaseValue);
 	SList(std::initializer_list<value_type> IL);
-	SList(const SList<value_type>& Other);
-	SList(SList<value_type>&& Other) : m_FirstNode(std::move(Other.m_FirstNode)) { }
+	SList(const SList<value_type>& That);
+	SList(SList<value_type>&& That) : m_FirstNode(std::move(That.m_FirstNode)) { }
 	~SList();
 
 
-	SList<value_type>& operator= (SList<value_type> Other); // copy-and-swap idiom.
+	SList<value_type>& operator= (SList<value_type> That); // copy-and-swap idiom.
 	SList<value_type>& operator= (std::initializer_list<value_type> IL);
 
 
@@ -43,10 +43,10 @@ public:
 
 	void assign(size_type NumberOfElements, const value_type& BaseValue);
 	void assign(std::initializer_list<value_type> IL);
-	void push_front(const value_type& InValue);
+	void push_front(const value_type& Value);
 	void pop_front();
 	void clear();
-	void swap(SList<value_type>& OutOther) noexcept;
+	void swap(SList<value_type>& That) noexcept;
 
 	inline reference front() { return m_FirstNode->Data; }
 	inline const_reference front() const { return m_FirstNode->Data; }
@@ -75,11 +75,11 @@ SList<T>::SList(size_type NumberOfElements)
 }
 
 template<typename T>
-SList<T>::SList(size_type NumberOfElements, const value_type& InBaseValue)
+SList<T>::SList(size_type NumberOfElements, const value_type& BaseValue)
 {
 	while (NumberOfElements > 0)
 	{
-		push_front(InBaseValue);
+		push_front(BaseValue);
 		--NumberOfElements;
 	}
 }
@@ -94,9 +94,9 @@ SList<T>::SList(std::initializer_list<value_type> IL)
 }
 
 template<typename T>
-SList<T>::SList(const SList<value_type>& Other)
+SList<T>::SList(const SList<value_type>& That)
 {
-	SNode<value_type>* That_CurrentNode = Other.m_FirstNode;
+	SNode<value_type>* That_CurrentNode = That.m_FirstNode;
 	SNode<value_type>* This_PreviousNode = nullptr;
 
 	SNode<value_type>* NewNode = nullptr;
@@ -106,7 +106,7 @@ SList<T>::SList(const SList<value_type>& Other)
 		NewNode = new SNode<value_type>(*That_CurrentNode);
 
 		if (this->empty()) m_FirstNode = NewNode;
-		else This_PreviousNode->Next = NewNode;
+		else This_PreviousNode->Next = NewNode; // Compiler warning, but it never gets dereferenced when null.
 
 		This_PreviousNode = NewNode;
 		That_CurrentNode = That_CurrentNode->Next;
@@ -122,10 +122,10 @@ SList<T>::~SList()
 
 
 template<typename T>
-auto SList<T>::operator= (SList<value_type> Other) -> SList<value_type>&
+auto SList<T>::operator= (SList<value_type> That) -> SList<value_type>&
 {
 	clear();
-	std::swap(m_FirstNode, Other.m_FirstNode);
+	std::swap(m_FirstNode, That.m_FirstNode);
 	return *this;
 }
 
@@ -165,9 +165,9 @@ void SList<T>::assign(std::initializer_list<value_type> IL)
 
 
 template<typename T>
-void SList<T>::push_front(const value_type& InValue)
+void SList<T>::push_front(const value_type& Value)
 {
-	SNode<value_type>* NewNode = new SNode<value_type>(m_FirstNode, InValue);
+	SNode<value_type>* NewNode = new SNode<value_type>(m_FirstNode, Value);
 	m_FirstNode = NewNode;
 }
 
@@ -189,10 +189,10 @@ void SList<T>::clear()
 }
 
 template<typename T>
-void SList<T>::swap(SList<value_type>& OutOther) noexcept
+void SList<T>::swap(SList<value_type>& That) noexcept
 {
-	SNode<value_type>* Tmp = OutOther.m_FirstNode;
-	OutOther.m_FirstNode = this->m_FirstNode;
+	SNode<value_type>* Tmp = That.m_FirstNode;
+	That.m_FirstNode = this->m_FirstNode;
 	this->m_FirstNode = Tmp;
 }
 

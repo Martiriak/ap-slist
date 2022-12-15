@@ -12,24 +12,24 @@ class ConstSIterator : public std::iterator<std::forward_iterator_tag, SNode<T>>
 public:
 
 	ConstSIterator() = default;
-	inline ConstSIterator(SNode<T>* InNode) : m_NodePointed(InNode) { }
-	inline ConstSIterator(const ConstSIterator<T>& Other) : m_NodePointed(Other.m_NodePointed) { }
+	inline ConstSIterator(SNode<T>* Node) : m_NodePointed(Node) { }
+	inline ConstSIterator(const ConstSIterator<T>& That) : m_NodePointed(That.m_NodePointed) { }
 	~ConstSIterator() = default;
 
-	inline ConstSIterator<T>& operator= (const ConstSIterator<T>& Other)
+	inline ConstSIterator<T>& operator= (const ConstSIterator<T>& That)
 	{
-		m_NodePointed = Other.m_NodePointed;
+		m_NodePointed = That.m_NodePointed;
 		return *this;
 	}
 
-	inline bool operator== (const ConstSIterator<T>& Other) const
+	inline bool operator== (const ConstSIterator<T>& That) const
 	{
-		return m_NodePointed == Other.m_NodePointed;
+		return m_NodePointed == That.m_NodePointed;
 	}
 
-	inline bool operator!= (const ConstSIterator<T>& Other) const
+	inline bool operator!= (const ConstSIterator<T>& That) const
 	{
-		return m_NodePointed != Other.m_NodePointed;
+		return m_NodePointed != That.m_NodePointed;
 	}
 
 
@@ -64,8 +64,8 @@ class SIterator : public ConstSIterator<T>
 public:
 
 	inline SIterator() : ConstSIterator<T>() {}
-	inline SIterator(SNode<T>* InNode) : ConstSIterator<T>(InNode) { }
-	inline SIterator(const ConstSIterator<T>& Other) : ConstSIterator<T>(Other.m_NodePointed) { }
+	inline SIterator(SNode<T>* Node) : ConstSIterator<T>(Node) { }
+	inline SIterator(const ConstSIterator<T>& That) : ConstSIterator<T>(That.m_NodePointed) { }
 	~SIterator() = default;
 
 

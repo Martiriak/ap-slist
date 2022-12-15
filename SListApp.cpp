@@ -8,10 +8,10 @@ template<typename T>
 void PrintList(const SList<T>& InList)
 {
 	int count = 0;
-	for (auto it = InList.cbegin(); it != InList.cend(); ++it)
+	for (auto It = InList.cbegin(); It != InList.cend(); ++It)
 	{
 		++count;
-		std::cout << *it << " ";
+		std::cout << *It << " ";
 	}
 
 	std::cout << "Number Of Elements: " << count << "\n";
@@ -123,9 +123,9 @@ void TestInitializationList()
 
 int main()
 {
-	//TestPushPopAndClear();
-	//TestConstructors();
-	//TestSwap();
-	//TestAssignment();
+	TestPushPopAndClear();
+	TestConstructors();
+	TestSwap();
+	TestAssignment();
 	TestInitializationList();
 }
