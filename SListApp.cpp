@@ -20,6 +20,7 @@ void PrintList(const SList<T>& InList)
 SList<int> ReturnListOfIntegers() { return SList<int>(1, 8); }
 
 
+
 void TestPushPopAndClear()
 {
 	SList<int> ForwardList;
@@ -42,6 +43,7 @@ void TestPushPopAndClear()
 	std::cout << "\n";
 }
 
+
 void TestConstructors()
 {
 	SList<int> FirstForwardList(6);
@@ -53,6 +55,7 @@ void TestConstructors()
 	SList<float> ThirdForwardList(SecondForwardList);
 	PrintList(ThirdForwardList); std::cout << "\n";
 }
+
 
 void TestSwap()
 {
@@ -101,10 +104,28 @@ void TestAssignment()
 }
 
 
+// About Initializer List: C++11 doesn't have reversed iterators for those,
+// meaning the front of the forward list will be the last element declared in the
+// initializer list. I'm not particularly fond of this, but it's not the end of the world either.
+void TestInitializationList()
+{
+	SList<float> A = { 1.f, 8.f, 8.96f, 2.364f, 3.14f };
+	PrintList(A);
+
+	SList<int> B;
+	PrintList(B = { 3, 6, 5 });
+
+	A.assign({5.65f, 3.85f});
+	PrintList(A);
+}
+
+
+
 int main()
 {
 	//TestPushPopAndClear();
 	//TestConstructors();
 	//TestSwap();
-	TestAssignment();
+	//TestAssignment();
+	TestInitializationList();
 }

@@ -25,12 +25,14 @@ public:
 	SList() = default;
 	SList(size_type NumberOfElements);
 	SList(size_type NumberOfElements, const value_type& InBaseValue);
+	SList(std::initializer_list<value_type> IL);
 	SList(const SList<value_type>& Other);
 	SList(SList<value_type>&& Other) : m_FirstNode(std::move(Other.m_FirstNode)) { }
 	~SList();
 
 
 	SList<value_type>& operator= (SList<value_type> Other); // copy-and-swap idiom.
+	SList<value_type>& operator= (std::initializer_list<value_type> IL);
 
 
 	inline iterator begin() noexcept { return iterator(m_FirstNode); }
@@ -40,6 +42,7 @@ public:
 	inline const_iterator cend() const noexcept { return const_iterator(); }
 
 	void assign(size_type NumberOfElements, const value_type& BaseValue);
+	void assign(std::initializer_list<value_type> IL);
 	void push_front(const value_type& InValue);
 	void pop_front();
 	void clear();
@@ -82,6 +85,15 @@ SList<T>::SList(size_type NumberOfElements, const value_type& InBaseValue)
 }
 
 template<typename T>
+SList<T>::SList(std::initializer_list<value_type> IL)
+{
+	for (auto It = IL.begin(); It != IL.end(); ++It)
+	{
+		push_front(*It);
+	}
+}
+
+template<typename T>
 SList<T>::SList(const SList<value_type>& Other)
 {
 	SNode<value_type>* That_CurrentNode = Other.m_FirstNode;
@@ -117,6 +129,14 @@ auto SList<T>::operator= (SList<value_type> Other) -> SList<value_type>&
 	return *this;
 }
 
+template<typename T>
+auto SList<T>::operator= (std::initializer_list<value_type> IL) -> SList<value_type>&
+{
+	clear();
+	assign(IL);
+	return *this;
+}
+
 
 
 
@@ -131,6 +151,18 @@ void SList<T>::assign(size_type NumberOfElements, const value_type& BaseValue)
 		--NumberOfElements;
 	}
 }
+
+template<typename T>
+void SList<T>::assign(std::initializer_list<value_type> IL)
+{
+	clear();
+
+	for (auto It = IL.begin(); It != IL.end(); ++It)
+	{
+		push_front(*It);
+	}
+}
+
 
 template<typename T>
 void SList<T>::push_front(const value_type& InValue)
