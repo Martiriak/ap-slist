@@ -61,7 +61,7 @@ private:
 
 
 
-//////////////// METHODS IMPLEMENTATIONS
+//////////////// METHODS IMPLEMENTATIONS ////////////////
 
 
 template<typename T>
