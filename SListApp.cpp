@@ -17,6 +17,8 @@ void PrintList(const SList<T>& InList)
 	std::cout << "Number Of Elements: " << count << "\n";
 }
 
+SList<int> ReturnListOfIntegers() { return SList<int>(1, 8); }
+
 
 void TestPushPopAndClear()
 {
@@ -76,9 +78,33 @@ void TestSwap()
 }
 
 
+void TestAssignment()
+{
+	SList<int> A(5, 2);
+	PrintList(A);
+
+	A.assign(2, 7);
+	std::cout << "\nPrinting after assign(2, 7)...\n";
+	PrintList(A);
+
+	SList<int> B(3, 4);
+	std::cout << "\n\nList B...\n";
+	PrintList(B);
+
+	B = A;
+	std::cout << "\nB = A\n";
+	PrintList(B);
+
+	A = ReturnListOfIntegers();
+	std::cout << "\nA = some temp\n";
+	PrintList(A);
+}
+
+
 int main()
 {
 	//TestPushPopAndClear();
 	//TestConstructors();
-	TestSwap();
+	//TestSwap();
+	TestAssignment();
 }
