@@ -2,12 +2,14 @@
 
 #include <iostream>
 #include "SList.h"
+#include "SListArray.h"
 
 
-template<typename T>
-void PrintList(const SList<T>& InList)
+template< template<typename _> class ListType, typename T>
+void PrintList(const ListType<T>& InList)
 {
 	int count = 0;
+
 	for (auto It = InList.cbegin(); It != InList.cend(); ++It)
 	{
 		++count;
@@ -17,7 +19,8 @@ void PrintList(const SList<T>& InList)
 	std::cout << "Number Of Elements: " << count << "\n";
 }
 
-SList<int> ReturnListOfIntegers() { return SList<int>(1, 8); }
+template< template<typename _> class ListType>
+ListType<int> ReturnListOfIntegers() { return ListType<int>(1, 8); }
 
 
 
@@ -39,6 +42,9 @@ void TestPushPopAndClear()
 	ForwardList.pop_front();
 	PrintList(ForwardList);
 	ForwardList.push_front(1);
+	PrintList(ForwardList);
+
+	ForwardList.clear();
 	PrintList(ForwardList);
 
 	std::cout << "\n";
@@ -80,6 +86,7 @@ void TestSwap()
 	PrintList(ListB);
 
 	// Should give an error, and it does!
+	//ListType<float> ListFloat(1, 3.14f);
 	//ListB.swap(ListFloat);
 }
 
@@ -102,7 +109,7 @@ void TestAssignment()
 	std::cout << "\nB = A\n";
 	PrintList(B);
 
-	A = ReturnListOfIntegers();
+	A = ReturnListOfIntegers<ListType>();
 	std::cout << "\nA = some temp\n";
 	PrintList(A);
 }
@@ -128,9 +135,17 @@ void TestInitializationList()
 
 int main()
 {
-	TestPushPopAndClear<SList>();
-	TestConstructors<SList>();
-	TestSwap<SList>();
-	TestAssignment<SList>();
-	TestInitializationList<SList>();
+	//TestPushPopAndClear<SList>();
+	//TestConstructors<SList>();
+	//TestSwap<SList>();
+	//TestAssignment<SList>();
+	//TestInitializationList<SList>();
+
+	//std::cout << "\n\n=====================================================================\n\n";
+
+	TestPushPopAndClear<SListArray>();
+	TestConstructors<SListArray>();
+	TestSwap<SListArray>();
+	TestAssignment<SListArray>();
+	TestInitializationList<SListArray>();
 }
