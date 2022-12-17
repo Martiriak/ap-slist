@@ -11,7 +11,7 @@ class ConstSIteratorArray : public std::iterator<std::forward_iterator_tag, T>
 {
 protected:
 
-	using Index = std::size_t;
+	using Index = long long int; // Not unsigned, because we need -1 as a valid index for an invalid iterator.
 	using DataArray = T*;
 
 public:
@@ -53,7 +53,8 @@ public:
 
 	inline ConstSIteratorArray<T>& operator++()
 	{
-		++m_DataPointed;
+		// Why decrement? Because the last element is the first on the array.
+		--m_DataPointed;
 		return *this;
 	}
 
