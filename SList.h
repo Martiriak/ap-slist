@@ -132,7 +132,6 @@ auto SList<T>::operator= (SList<value_type> That) -> SList<value_type>&
 template<typename T>
 auto SList<T>::operator= (std::initializer_list<value_type> IL) -> SList<value_type>&
 {
-	clear();
 	assign(IL);
 	return *this;
 }
