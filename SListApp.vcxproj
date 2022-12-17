@@ -139,13 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SIterator.cpp" />
-    <ClCompile Include="SList.cpp" />
     <ClCompile Include="SListApp.cpp" />
-    <ClCompile Include="SListArray.cpp" />
-    <ClCompile Include="SNode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FixedSIterator.h" />
     <ClInclude Include="SIterator.h" />
     <ClInclude Include="SIteratorArray.h" />
     <ClInclude Include="SList.h" />

@@ -135,13 +135,13 @@ void TestInitializationList()
 
 int main()
 {
-	//TestPushPopAndClear<SList>();
-	//TestConstructors<SList>();
-	//TestSwap<SList>();
-	//TestAssignment<SList>();
-	//TestInitializationList<SList>();
+	TestPushPopAndClear<SList>();
+	TestConstructors<SList>();
+	TestSwap<SList>();
+	TestAssignment<SList>();
+	TestInitializationList<SList>();
 
-	//std::cout << "\n\n=====================================================================\n\n";
+	std::cout << "\n\n=====================================================================\n\n";
 
 	TestPushPopAndClear<SListArray>();
 	TestConstructors<SListArray>();
