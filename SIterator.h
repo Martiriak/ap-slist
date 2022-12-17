@@ -45,7 +45,7 @@ public:
 
 	inline ConstSIterator<T> operator++(int)
 	{
-		ConstSIterator<T>* OldIter = *this;
+		ConstSIterator<T> OldIter(*this);
 		operator++();
 		return OldIter;
 	}
@@ -56,6 +56,7 @@ protected:
 	SNode<T>* m_NodePointed = nullptr;
 };
 
+
 template<typename T>
 class SIterator : public ConstSIterator<T>
 {
@@ -63,9 +64,9 @@ class SIterator : public ConstSIterator<T>
 
 public:
 
-	inline SIterator() : ConstSIterator<T>() {}
+	inline SIterator() : ConstSIterator<T>() { }
 	inline SIterator(SNode<T>* Node) : ConstSIterator<T>(Node) { }
-	inline SIterator(const ConstSIterator<T>& That) : ConstSIterator<T>(That.m_NodePointed) { }
+	inline SIterator(const ConstSIterator<T>& That) : ConstSIterator<T>(That) { }
 	~SIterator() = default;
 
 
