@@ -5,7 +5,7 @@
 
 namespace FixedTests
 {
-	void TestPushPopAndClear();
+	void TestPushPopClearAndFront();
 	void TestConstructors();
 	void TestSwap();
 	void TestAssignment();

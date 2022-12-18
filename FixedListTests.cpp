@@ -1,8 +1,8 @@
 // Alessandro Pegoraro - 2022
 
 #include "FixedListTests.h"
-#include "FixedSList.h"
 #include <iostream>
+#include "FixedSList.h"
 
 
 namespace
@@ -27,7 +27,7 @@ namespace
 
 namespace FixedTests
 {
-	void TestPushPopAndClear()
+	void TestPushPopClearAndFront()
 	{
 		FixedSList<int> ForwardList;
 
@@ -45,6 +45,8 @@ namespace FixedTests
 		PrintList(ForwardList);
 		ForwardList.push_front(1);
 		PrintList(ForwardList);
+
+		std::cout << "\nFront: " << ForwardList.front() << ", now clearing.\n";
 
 		ForwardList.clear();
 		PrintList(ForwardList);

@@ -29,7 +29,7 @@ ListType<int> ReturnListOfIntegers() { return ListType<int>(1, 8); }
 
 
 template< template<typename _> class ListType >
-void TestPushPopAndClear()
+void TestPushPopClearAndFront()
 {
 	ListType<int> ForwardList;
 
@@ -47,6 +47,8 @@ void TestPushPopAndClear()
 	PrintList(ForwardList);
 	ForwardList.push_front(1);
 	PrintList(ForwardList);
+
+	std::cout << "\nFront: " << ForwardList.front() << ", now clearing.\n";
 
 	ForwardList.clear();
 	PrintList(ForwardList);
@@ -298,15 +300,15 @@ void TestCopy()
 
 int main()
 {
-	//TestPushPopAndClear<SList>();
-	//TestConstructors<SList>();
-	//TestSwap<SList>();
-	//TestAssignment<SList>();
-	//TestInitializationList<SList>();
+	TestPushPopClearAndFront<SList>();
+	TestConstructors<SList>();
+	TestSwap<SList>();
+	TestAssignment<SList>();
+	TestInitializationList<SList>();
 
 	//std::cout << "\n\n=====================================================================\n\n";
 
-	//TestPushPopAndClear<SListArray>();
+	//TestPushPopClearAndFront<SListArray>();
 	//TestConstructors<SListArray>();
 	//TestSwap<SListArray>();
 	//TestAssignment<SListArray>();
@@ -314,7 +316,7 @@ int main()
 
 	//std::cout << "\n\n=====================================================================\n\n";
 
-	//FixedTests::TestPushPopAndClear();
+	//FixedTests::TestPushPopClearAndFront();
 	//FixedTests::TestConstructors();
 	//FixedTests::TestSwap();
 	//FixedTests::TestAssignment();
