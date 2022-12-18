@@ -3,14 +3,16 @@
 #include <iostream>
 #include "SList.h"
 #include "SListArray.h"
+#include "FixedSList.h"
+#include "FixedListTests.h"
 
 
 template< template<typename _> class ListType, typename T>
-void PrintList(const ListType<T>& InList)
+void PrintList(const ListType<T>& List)
 {
 	int count = 0;
 
-	for (auto It = InList.cbegin(); It != InList.cend(); ++It)
+	for (auto It = List.cbegin(); It != List.cend(); ++It)
 	{
 		++count;
 		std::cout << *It << " ";
@@ -135,17 +137,25 @@ void TestInitializationList()
 
 int main()
 {
-	TestPushPopAndClear<SList>();
-	TestConstructors<SList>();
-	TestSwap<SList>();
-	TestAssignment<SList>();
-	TestInitializationList<SList>();
+	//TestPushPopAndClear<SList>();
+	//TestConstructors<SList>();
+	//TestSwap<SList>();
+	//TestAssignment<SList>();
+	//TestInitializationList<SList>();
 
-	std::cout << "\n\n=====================================================================\n\n";
+	//std::cout << "\n\n=====================================================================\n\n";
 
-	TestPushPopAndClear<SListArray>();
-	TestConstructors<SListArray>();
-	TestSwap<SListArray>();
-	TestAssignment<SListArray>();
-	TestInitializationList<SListArray>();
+	//TestPushPopAndClear<SListArray>();
+	//TestConstructors<SListArray>();
+	//TestSwap<SListArray>();
+	//TestAssignment<SListArray>();
+	//TestInitializationList<SListArray>();
+
+	//std::cout << "\n\n=====================================================================\n\n";
+
+	//FixedTests::TestPushPopAndClear();
+	//FixedTests::TestConstructors();
+	FixedTests::TestSwap();
+	//FixedTests::TestAssignment();
+	//FixedTests::TestInitializationList();
 }
