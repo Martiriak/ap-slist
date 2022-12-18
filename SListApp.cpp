@@ -300,11 +300,11 @@ void TestCopy()
 
 int main()
 {
-	TestPushPopClearAndFront<SList>();
-	TestConstructors<SList>();
-	TestSwap<SList>();
-	TestAssignment<SList>();
-	TestInitializationList<SList>();
+	//TestPushPopClearAndFront<SList>();
+	//TestConstructors<SList>();
+	//TestSwap<SList>();
+	//TestAssignment<SList>();
+	//TestInitializationList<SList>();
 
 	//std::cout << "\n\n=====================================================================\n\n";
 

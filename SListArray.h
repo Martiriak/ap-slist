@@ -8,6 +8,18 @@
 #include "SIteratorArray.h"
 
 
+/**
+ * Forward List, compatible with stl and its algorithms.
+ *
+ * Uses a std vector as its underlying container, where the element with the highest index is the first on the list.
+ * This was done to improve cache friendliness and to keep push and pop operations efficient, although with an amortized cost given by the occasional vector resizes.
+ * 
+ * Uses a custom forward iterator class, called SIteratorArray, which makes use of the underlaying container's linearity.
+ *
+ * Note: just like std containers, it won't delete user allocated's memory!
+ *
+ * @see SIteratorArray
+ */
 template<typename T>
 class SListArray final
 {
@@ -28,7 +40,7 @@ public:
 	SListArray(size_type NumberOfElements, const value_type& BaseValue);
 	SListArray(std::initializer_list<value_type> IL);
 	SListArray(const SListArray<value_type>& That);
-	SListArray(SListArray<value_type>&& That) : m_Data(std::move(That.m_Data)) { }
+	SListArray(SListArray<value_type>&& That);
 	~SListArray();
 
 
@@ -36,8 +48,9 @@ public:
 	SListArray<value_type>& operator= (std::initializer_list<value_type> IL);
 
 
-	// Why the const_cast? Because of the implementation details of the const_iterator.
-	// Also, it doesn't modify the actual data, so it is safe to do.
+	// cbegin() and cend() employ a const_cast in order to initialize the const_iterator.
+	// This is safe, because the const_iterator does not modify its value.
+	// For more information, see ConstSIteratorArray.
 
 	inline iterator begin() noexcept { return iterator(m_Data.data(), m_Data.size() - 1); }
 	inline const_iterator cbegin() const noexcept { return const_iterator(const_cast<value_type*>(m_Data.data()), m_Data.size() - 1); }
@@ -60,9 +73,7 @@ public:
 
 private:
 
-	using nodes_vector = std::vector<value_type>;
-
-	nodes_vector m_Data;
+	std::vector<value_type> m_Data;
 };
 
 
@@ -72,39 +83,13 @@ private:
 
 
 template<typename T>
-SListArray<T>::SListArray(size_type NumberOfElements)
-{
-	m_Data.reserve(NumberOfElements);
-
-	while (NumberOfElements > 0)
-	{
-		push_front(value_type());
-		--NumberOfElements;
-	}
-}
+SListArray<T>::SListArray(size_type NumberOfElements) : SListArray<value_type>(NumberOfElements, value_type()) { }
 
 template<typename T>
-SListArray<T>::SListArray(size_type NumberOfElements, const value_type& BaseValue)
-{
-	m_Data.reserve(NumberOfElements);
-
-	while (NumberOfElements > 0)
-	{
-		push_front(BaseValue);
-		--NumberOfElements;
-	}
-}
+SListArray<T>::SListArray(size_type NumberOfElements, const value_type& BaseValue) { assign(NumberOfElements, BaseValue); }
 
 template<typename T>
-SListArray<T>::SListArray(std::initializer_list<value_type> IL)
-{
-	m_Data.reserve(IL.size());
-
-	for (auto It = IL.begin(); It != IL.end(); ++It)
-	{
-		push_front(*It);
-	}
-}
+SListArray<T>::SListArray(std::initializer_list<value_type> IL) { assign(IL); }
 
 template<typename T>
 SListArray<T>::SListArray(const SListArray<value_type>& That)
@@ -118,17 +103,17 @@ SListArray<T>::SListArray(const SListArray<value_type>& That)
 }
 
 template<typename T>
-SListArray<T>::~SListArray()
-{
-	clear();
-}
+SListArray<T>::SListArray(SListArray<value_type>&& That) : m_Data(std::move(That.m_Data)) { }
+
+template<typename T>
+SListArray<T>::~SListArray() { clear(); }
 
 
 
 template<typename T>
 auto SListArray<T>::operator=(SListArray<value_type> That) -> SListArray<value_type>&
 {
-	this->swap(That);
+	std::swap(m_Data, That.m_Data);
 	return *this;
 }
 
@@ -163,9 +148,9 @@ void SListArray<T>::assign(std::initializer_list<value_type> IL)
 
 	m_Data.reserve(IL.size());
 
-	for (auto It = IL.begin(); It != IL.end(); ++It)
+	for (const value_type& Value : IL)
 	{
-		push_front(*It);
+		push_front(Value);
 	}
 }
 

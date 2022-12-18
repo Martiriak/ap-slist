@@ -144,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FixedListTests.h" />
-    <ClInclude Include="FixedSIterator.h" />
     <ClInclude Include="FixedSList.h" />
     <ClInclude Include="SIterator.h" />
     <ClInclude Include="SIteratorArray.h" />

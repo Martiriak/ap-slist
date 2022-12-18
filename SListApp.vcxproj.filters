@@ -38,9 +38,6 @@
     <ClInclude Include="SIteratorArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FixedSIterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FixedSList.h">
       <Filter>Header Files</Filter>
     </ClInclude>

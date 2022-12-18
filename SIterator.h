@@ -6,6 +6,16 @@
 #include <iterator>
 
 
+/**
+ * Forward iterator used in conjunction with SList.
+ * 
+ * It iterates through SNodes, using their already existing link.
+ * end() iterators do not point to any SNode.
+ * 
+ * Even though it doesn't use the keyword const, this is treated as a constant iterator, and as such it does not modify its values.
+ *
+ * @see SList, SNode
+ */
 template<typename T>
 class ConstSIterator : public std::iterator<std::forward_iterator_tag, SNode<T>>
 {
@@ -27,6 +37,7 @@ public:
 		return m_NodePointed == That.m_NodePointed;
 	}
 
+	// Non-canonical implementation of operator!=, given its brevity it isn't a concern.
 	inline bool operator!= (const ConstSIterator<T>& That) const
 	{
 		return m_NodePointed != That.m_NodePointed;
@@ -57,6 +68,17 @@ protected:
 };
 
 
+
+/**
+ * Forward iterator used in conjunction with SList.
+ *
+ * It iterates through SNodes, using their already existing link.
+ * end() iterators do not point to any SNode.
+ *
+ * It extends ConstSIterator, allowing for its values to be modified.
+ *
+ * @see SList, SNode
+ */
 template<typename T>
 class SIterator : public ConstSIterator<T>
 {

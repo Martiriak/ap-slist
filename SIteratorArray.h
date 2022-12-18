@@ -3,9 +3,23 @@
 #pragma once
 
 #include <iterator>
-#include <cstddef>
 
 
+/**
+ * Forward iterator used in conjunction with SListArray and FixedSList, but can be used for any C-style array.
+ *
+ * It uses a pointer to said C-style array and the index of the iterated element, using random access to retrieve it.
+ * 
+ * It assumes that the last element has the index 0, and as such it actually decrements the index when incrementing the iterator.
+ * This is done to accomodate SListArray and FixedSList implementation.
+ *
+ * Even though it doesn't use the keyword const, this is treated as a constant iterator, and as such it does not modify its values.
+ * However, the DataArray argument does need a const_cast to T*, or else it won't compile if used in a const method.
+ * This quirk could be fixed by making m_Data a const T*, and making its SIteratorArray child class use a different, non const, pointer to T.
+ * However, this wasn't done to keep overheads to the minimum.
+ *
+ * @see SListArray, FixedSList
+ */
 template<typename T>
 class ConstSIteratorArray : public std::iterator<std::forward_iterator_tag, T>
 {
@@ -42,8 +56,7 @@ public:
 
 	inline bool operator!= (const ConstSIteratorArray<T>& That) const
 	{
-		return (m_Data != That.m_Data) ||
-			   (m_DataPointed != That.m_DataPointed);
+		return ! operator==(That);
 	}
 
 
@@ -53,7 +66,7 @@ public:
 
 	inline ConstSIteratorArray<T>& operator++()
 	{
-		// Why decrement? Because the last element is the first on the array.
+		// Why decrement? Read the javadoc.
 		--m_DataPointed;
 		return *this;
 	}
@@ -73,6 +86,22 @@ protected:
 };
 
 
+
+/**
+ * Forward iterator used in conjunction with SListArray and FixedSList, but can be used for any C-style array.
+ *
+ * It uses a pointer to said C-style array and the index of the iterated element, using random access to retrieve it.
+ *
+ * It assumes that the last element has the index 0, and as such it actually decrements the index when incrementing the iterator.
+ * This is done to accomodate SListArray and FixedSList implementation.
+ *
+ * It extends ConstSIterator, allowing for its values to be modified.
+ * However, the DataArray argument needs a const_cast to T*, or else it won't compile if used in a const method.
+ * This quirk could be fixed by making its ConstSIteratorArray parent class use another const pointer to T.
+ * However, this wasn't done to keep overheads to the minimum.
+ * 
+ * @see SList, SNode
+ */
 template<typename T>
 class SIteratorArray : public ConstSIteratorArray<T>
 {

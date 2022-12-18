@@ -3,6 +3,12 @@
 #pragma once
 
 
+/**
+ * Simple support struct used by SList, to implement a Forward List.
+ * Could be further improved by implementing move semantics and swap.
+ * 
+ * @see SList
+ */
 template<typename T>
 struct SNode final
 {

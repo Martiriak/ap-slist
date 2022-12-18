@@ -6,6 +6,18 @@
 #include "SIteratorArray.h"
 
 
+/**
+ * Forward List, compatible with stl and its algorithms.
+ *
+ * Uses a C-style array as its underlying container, where the element with the highest index is the first on the list.
+ * This was done to improve cache friendliness, avoid dynamic allocations and to keep push and pop operations efficient, although giving a compile-time cap on its capacity.
+ *
+ * Uses a custom forward iterator class, called SIteratorArray, which makes use of the underlaying container's linearity.
+ *
+ * Note: just like std containers, it won't delete user allocated's memory!
+ *
+ * @see SIteratorArray
+ */
 template<typename T, std::size_t Capacity = 1000>
 class FixedSList final
 {
@@ -26,6 +38,7 @@ public:
 	FixedSList(size_type NumberOfElements, const value_type& BaseValue);
 	FixedSList(std::initializer_list<value_type> IL);
 	FixedSList(const FixedSList<value_type, Capacity>& That);
+	// There isn't a move constructor, because there aren't dynamic allocations.
 	~FixedSList();
 
 
@@ -33,8 +46,9 @@ public:
 	FixedSList<value_type, Capacity>& operator= (std::initializer_list<value_type> IL);
 
 
-	// Why the const_cast? Because of the implementation details of the const_iterator.
-	// Also, it doesn't modify the actual data, so it is safe to do.
+	// cbegin() and cend() employ a const_cast in order to initialize the const_iterator.
+	// This is safe, because the const_iterator does not modify its value.
+	// For more information, see ConstSIteratorArray.
 
 	inline iterator begin() noexcept { return iterator(m_Data, m_LastElementIndex); }
 	inline const_iterator cbegin() const noexcept { return const_iterator(const_cast<value_type*>(m_Data), m_LastElementIndex); }
@@ -72,32 +86,13 @@ private:
 
 template<typename T, std::size_t Capacity /*= 1000*/>
 FixedSList<T, Capacity>::FixedSList(size_type NumberOfElements)
-{
-	while (NumberOfElements > 0)
-	{
-		push_front(value_type());
-		--NumberOfElements;
-	}
-}
+	: FixedSList<value_type, Capacity>(NumberOfElements, value_type()) { }
 
 template<typename T, std::size_t Capacity /*= 1000*/>
-FixedSList<T, Capacity>::FixedSList(size_type NumberOfElements, const value_type& BaseValue)
-{
-	while (NumberOfElements > 0)
-	{
-		push_front(BaseValue);
-		--NumberOfElements;
-	}
-}
+FixedSList<T, Capacity>::FixedSList(size_type NumberOfElements, const value_type& BaseValue) { assign(NumberOfElements, BaseValue); }
 
 template<typename T, std::size_t Capacity /*= 1000*/>
-FixedSList<T, Capacity>::FixedSList(std::initializer_list<value_type> IL)
-{
-	for (auto It = IL.begin(); It != IL.end(); ++It)
-	{
-		push_front(*It);
-	}
-}
+FixedSList<T, Capacity>::FixedSList(std::initializer_list<value_type> IL) { assign(IL); }
 
 template<typename T, std::size_t Capacity /*= 1000*/>
 FixedSList<T, Capacity>::FixedSList(const FixedSList<value_type, Capacity>& That)
@@ -109,10 +104,7 @@ FixedSList<T, Capacity>::FixedSList(const FixedSList<value_type, Capacity>& That
 }
 
 template<typename T, std::size_t Capacity>
-FixedSList<T, Capacity>::~FixedSList()
-{
-	clear();
-}
+FixedSList<T, Capacity>::~FixedSList() { clear(); }
 
 
 
@@ -156,9 +148,9 @@ void FixedSList<T, Capacity>::assign(std::initializer_list<value_type> IL)
 {
 	clear();
 
-	for (auto It = IL.begin(); It != IL.end(); ++It)
+	for (const value_type& Value : IL)
 	{
-		push_front(*It);
+		push_front(Value);
 	}
 }
 

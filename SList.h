@@ -7,6 +7,19 @@
 #include "SIterator.h"
 
 
+/**
+ * Forward List, compatible with stl and its algorithms.
+ * 
+ * Uses a struct called SNode to store its values and link them together.
+ * Uses a custom forward iterator class, called SIterator, which makes use of the linked SNodes.
+ * 
+ * Allocates memory on the free store, but manages it internally.
+ * This means that although push and pop operations are O(1), they will request memory to the OS each time.
+ * 
+ * Note: just like std containers, it won't delete user allocated's memory!
+ * 
+ * @see SNode, SIterator
+ */
 template<typename T>
 class SList final
 {
@@ -27,7 +40,7 @@ public:
 	SList(size_type NumberOfElements, const value_type& BaseValue);
 	SList(std::initializer_list<value_type> IL);
 	SList(const SList<value_type>& That);
-	SList(SList<value_type>&& That) : m_FirstNode(std::move(That.m_FirstNode)) { }
+	SList(SList<value_type>&& That);
 	~SList();
 
 
@@ -65,33 +78,13 @@ private:
 
 
 template<typename T>
-SList<T>::SList(size_type NumberOfElements)
-{
-	while (NumberOfElements > 0)
-	{
-		push_front(value_type());
-		--NumberOfElements;
-	}
-}
+SList<T>::SList(size_type NumberOfElements) : SList<value_type>(NumberOfElements, value_type()) { }
 
 template<typename T>
-SList<T>::SList(size_type NumberOfElements, const value_type& BaseValue)
-{
-	while (NumberOfElements > 0)
-	{
-		push_front(BaseValue);
-		--NumberOfElements;
-	}
-}
+SList<T>::SList(size_type NumberOfElements, const value_type& BaseValue) { assign(NumberOfElements, BaseValue); }
 
 template<typename T>
-SList<T>::SList(std::initializer_list<value_type> IL)
-{
-	for (auto It = IL.begin(); It != IL.end(); ++It)
-	{
-		push_front(*It);
-	}
-}
+SList<T>::SList(std::initializer_list<value_type> IL) { assign(IL); }
 
 template<typename T>
 SList<T>::SList(const SList<value_type>& That)
@@ -114,10 +107,10 @@ SList<T>::SList(const SList<value_type>& That)
 }
 
 template<typename T>
-SList<T>::~SList()
-{
-	clear();
-}
+SList<T>::SList(SList<value_type>&& That) : m_FirstNode(std::move(That.m_FirstNode)) { }
+
+template<typename T>
+SList<T>::~SList() { clear(); }
 
 
 
@@ -156,9 +149,9 @@ void SList<T>::assign(std::initializer_list<value_type> IL)
 {
 	clear();
 
-	for (auto It = IL.begin(); It != IL.end(); ++It)
+	for (const value_type& Value : IL)
 	{
-		push_front(*It);
+		push_front(Value);
 	}
 }
 
@@ -190,9 +183,7 @@ void SList<T>::clear()
 template<typename T>
 void SList<T>::swap(SList<value_type>& That) noexcept
 {
-	SNode<value_type>* Tmp = That.m_FirstNode;
-	That.m_FirstNode = this->m_FirstNode;
-	this->m_FirstNode = Tmp;
+	std::swap(m_FirstNode, That.m_FirstNode);
 }
 
 
