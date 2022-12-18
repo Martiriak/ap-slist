@@ -1,6 +1,8 @@
 // Alessandro Pegoraro - 2022
 
 #include <iostream>
+#include <algorithm>
+#include <forward_list>
 #include "SList.h"
 #include "SListArray.h"
 #include "FixedSList.h"
@@ -135,6 +137,165 @@ void TestInitializationList()
 
 
 
+
+
+void TestFindIf()
+{
+	std::forward_list<int> StdList  = { 4, 8, 15, 16, 23, 42 };
+	SList<int> NodeList             = { 42, 23, 16, 15, 8, 4 };
+	SListArray<int> VectorList      = { 42, 23, 16, 15, 8, 4 };
+	FixedSList<int, 20> FixedList   = { 42, 23, 16, 15, 8, 4 };
+
+	auto IsGreaterThan20 = [](int Value) { return Value > 20; };
+
+	std::cout << "Value found in StdList: ";
+	std::cout << *(std::find_if(StdList.cbegin(), StdList.cend(), IsGreaterThan20));
+	std::cout << '\n';
+
+	std::cout << "Value found in NodeList: ";
+	std::cout << *(std::find_if(NodeList.cbegin(), NodeList.cend(), IsGreaterThan20));
+	std::cout << '\n';
+
+	std::cout << "Value found in VectorList: ";
+	std::cout << *(std::find_if(VectorList.cbegin(), VectorList.cend(), IsGreaterThan20));
+	std::cout << '\n';
+
+	std::cout << "Value found in FixedList: ";
+	std::cout << *(std::find_if(FixedList.cbegin(), FixedList.cend(), IsGreaterThan20));
+	std::cout << '\n';
+}
+
+void TestCount()
+{
+	std::forward_list<int> StdList  = { 4, 8, 4, 16, 4, 42 };
+	SList<int> NodeList             = { 42, 4, 16, 4, 8, 4 };
+	SListArray<int> VectorList      = { 42, 4, 16, 4, 8, 4 };
+	FixedSList<int, 20> FixedList   = { 42, 4, 16, 4, 8, 4 };
+
+	std::cout << "There are ";
+	std::cout << std::count(StdList.cbegin(), StdList.cend(), 4);
+	std::cout << " 4s in StdList.\n";
+
+	std::cout << "There are ";
+	std::cout << std::count(NodeList.cbegin(), NodeList.cend(), 4);
+	std::cout << " 4s in NodeList.\n";
+
+	std::cout << "There are ";
+	std::cout << std::count(VectorList.cbegin(), VectorList.cend(), 4);
+	std::cout << " 4s in VectorList.\n";
+
+	std::cout << "There are ";
+	std::cout << std::count(FixedList.cbegin(), FixedList.cend(), 4);
+	std::cout << " 4s in FixedList.\n";
+}
+
+void TestForEachAndForRange()
+{
+	std::forward_list<int> StdList  = { 4, 8, 15, 16, 23, 42 };
+	SList<int> NodeList             = { 42, 23, 16, 15, 8, 4 };
+	SListArray<int> VectorList      = { 42, 23, 16, 15, 8, 4 };
+	FixedSList<int, 20> FixedList   = { 42, 23, 16, 15, 8, 4 };
+
+	auto IncrementEachBy5 = [](int& Value) { Value += 5; };
+
+	std::for_each(StdList.begin(), StdList.end(), IncrementEachBy5);
+	std::for_each(NodeList.begin(), NodeList.end(), IncrementEachBy5);
+	std::for_each(VectorList.begin(), VectorList.end(), IncrementEachBy5);
+	std::for_each(FixedList.begin(), FixedList.end(), IncrementEachBy5);
+
+	std::cout << "Printing values of StdList...\n";
+	for (int Value : StdList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+
+	std::cout << "Printing values of NodeList...\n";
+	for (int Value : NodeList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+
+	std::cout << "Printing values of VectorList...\n";
+	for (int Value : VectorList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+
+	std::cout << "Printing values of FixedList...\n";
+	for (int Value : FixedList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+}
+
+void TestCopy()
+{
+	std::forward_list<int> StdList  = { 4, 8, 15, 16, 23, 42 };
+	SList<int> NodeList             = { 0, 0, 0, 0, 7, 3 };
+	SListArray<int> VectorList      = { -1, -1, -1, -1, 6, 2 };
+	FixedSList<int, 20> FixedList   = { -2, -2, -2, -2, 5, 1 };
+
+	// Expected end results:
+	// StdList     = 4, 8, 15, 16, 23, 42
+	// NodeList    = 3, 8, 15, 16, 23, 0
+	// VectorList  = 2, 8, 15, 16, 23, -1
+	// FixedList   = 1, 8, 15, 16, 23, -2
+
+	// Begin starts at index 1, End at index 5.
+
+	auto StdBegin = StdList.begin(); ++StdBegin;
+	auto StdEnd = StdList.begin(); for (int i = 0; i < 5; ++i) ++StdEnd;
+
+	auto NodeBegin = NodeList.begin(); ++NodeBegin;
+	auto NodeEnd = NodeList.begin(); for (int i = 0; i < 5; ++i) ++NodeEnd;
+
+	auto VectorBegin = VectorList.begin(); ++VectorBegin;
+	auto VectorEnd = VectorList.begin(); for (int i = 0; i < 5; ++i) ++VectorEnd;
+
+	auto FixedBegin = FixedList.begin(); ++FixedBegin;
+	auto FixedEnd = FixedList.begin(); for (int i = 0; i < 5; ++i) ++FixedEnd;
+
+
+	std::copy(StdBegin, StdEnd, NodeBegin);
+	std::copy(NodeBegin, NodeEnd, VectorBegin);
+	std::copy(VectorBegin, VectorEnd, FixedBegin);
+	std::copy(FixedBegin, FixedEnd, StdBegin); // This one shouldn't modify StdList.
+
+
+	std::cout << "Printing values of StdList...\n";
+	for (int Value : StdList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+
+	std::cout << "Printing values of NodeList...\n";
+	for (int Value : NodeList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+
+	std::cout << "Printing values of VectorList...\n";
+	for (int Value : VectorList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+
+	std::cout << "Printing values of FixedList...\n";
+	for (int Value : FixedList)
+	{
+		std::cout << Value << ' ';
+	}
+	std::cout << "\n";
+}
+
+
 int main()
 {
 	//TestPushPopAndClear<SList>();
@@ -155,7 +316,14 @@ int main()
 
 	//FixedTests::TestPushPopAndClear();
 	//FixedTests::TestConstructors();
-	FixedTests::TestSwap();
+	//FixedTests::TestSwap();
 	//FixedTests::TestAssignment();
 	//FixedTests::TestInitializationList();
+
+	//std::cout << "\n\n=====================================================================\n\n";
+
+	//TestFindIf();
+	//TestCount();
+	//TestForEachAndForRange();
+	//TestCopy();
 }
