@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <vector>
-#include "SNode.h"
 #include "SIteratorArray.h"
 
 

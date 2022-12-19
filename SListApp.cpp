@@ -247,7 +247,7 @@ void TestCopy()
 	// VectorList  = 2, 8, 15, 16, 23, -1
 	// FixedList   = 1, 8, 15, 16, 23, -2
 
-	// Begin starts at index 1, End at index 5.
+	// Begin starts at index 1, End at index 4.
 
 	auto StdBegin = StdList.begin(); ++StdBegin;
 	auto StdEnd = StdList.begin(); for (int i = 0; i < 5; ++i) ++StdEnd;
@@ -300,32 +300,32 @@ void TestCopy()
 
 int main()
 {
-	//TestPushPopClearAndFront<SList>();
-	//TestConstructors<SList>();
-	//TestSwap<SList>();
-	//TestAssignment<SList>();
-	//TestInitializationList<SList>();
+	TestPushPopClearAndFront<SList>();
+	TestConstructors<SList>();
+	TestSwap<SList>();
+	TestAssignment<SList>();
+	TestInitializationList<SList>();
 
-	//std::cout << "\n\n=====================================================================\n\n";
+	std::cout << "\n\n=====================================================================\n\n";
 
-	//TestPushPopClearAndFront<SListArray>();
-	//TestConstructors<SListArray>();
-	//TestSwap<SListArray>();
-	//TestAssignment<SListArray>();
-	//TestInitializationList<SListArray>();
+	TestPushPopClearAndFront<SListArray>();
+	TestConstructors<SListArray>();
+	TestSwap<SListArray>();
+	TestAssignment<SListArray>();
+	TestInitializationList<SListArray>();
 
-	//std::cout << "\n\n=====================================================================\n\n";
+	std::cout << "\n\n=====================================================================\n\n";
 
-	//FixedTests::TestPushPopClearAndFront();
-	//FixedTests::TestConstructors();
-	//FixedTests::TestSwap();
-	//FixedTests::TestAssignment();
-	//FixedTests::TestInitializationList();
+	FixedTests::TestPushPopClearAndFront();
+	FixedTests::TestConstructors();
+	FixedTests::TestSwap();
+	FixedTests::TestAssignment();
+	FixedTests::TestInitializationList();
 
-	//std::cout << "\n\n=====================================================================\n\n";
+	std::cout << "\n\n=====================================================================\n\n";
 
-	//TestFindIf();
-	//TestCount();
-	//TestForEachAndForRange();
-	//TestCopy();
+	TestFindIf();
+	TestCount();
+	TestForEachAndForRange();
+	TestCopy();
 }
