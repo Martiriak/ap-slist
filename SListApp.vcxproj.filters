@@ -15,33 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SListApp.cpp">
+    <ClCompile Include="Tests/SListApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FixedListTests.cpp">
+    <ClCompile Include="Tests/FixedListTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SList.h">
+    <ClInclude Include="Lists/SList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SNode.h">
+    <ClInclude Include="Lists/SNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SIterator.h">
+    <ClInclude Include="Iterators/SIterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SListArray.h">
+    <ClInclude Include="Lists/SListArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SIteratorArray.h">
+    <ClInclude Include="Iterators/SIteratorArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FixedSList.h">
+    <ClInclude Include="Lists/FixedSList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FixedListTests.h">
+    <ClInclude Include="Tests/FixedListTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
